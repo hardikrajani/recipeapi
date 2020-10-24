@@ -15,7 +15,8 @@ public class SwaggerConfig {
     public Docket accountApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.hardik.abn.assessment.Controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.hardik.abn.assessment.controller"))
                 .build();
     }
+    
 }

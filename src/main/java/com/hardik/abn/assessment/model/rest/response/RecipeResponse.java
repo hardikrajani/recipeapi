@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hardik.abn.assessment.model.entity.Recipe;
 
 import lombok.Data;
@@ -14,6 +15,8 @@ import lombok.NoArgsConstructor;
 public class RecipeResponse {
 
 	private long id;
+	private String name;
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	private Date createDate;
 	private boolean isVegetarian;
 	private int numberOfPerson;
@@ -23,6 +26,7 @@ public class RecipeResponse {
 	public static RecipeResponse fromModel(Recipe recipe) {
 		RecipeResponse recipeResponse = new RecipeResponse();
 		recipeResponse.setCookingInstruction(recipe.getCookingInstruction());
+		recipeResponse.setName(recipe.getName());
 		recipeResponse.setCreateDate(recipe.getCreateDate());
 		recipeResponse.setId(recipe.getId());
 		recipeResponse.setNumberOfPerson(recipe.getNumberOfPerson());

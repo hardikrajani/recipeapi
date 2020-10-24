@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -26,6 +27,7 @@ public class Recipe {
 	long id;
 	
 	@Column(name="create_date")
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
 	Date createDate;
 	
 	@Column(name="vegetarian")
@@ -33,7 +35,10 @@ public class Recipe {
 	
 	@Column(name="number_of_person")
 	int numberOfPerson;
-	
+
+	@Column(name="name")
+	String name;
+
 	@Column(name="cooking_instructions")
 	String cookingInstruction;
 	

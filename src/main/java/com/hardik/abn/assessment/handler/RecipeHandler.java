@@ -2,14 +2,18 @@ package com.hardik.abn.assessment.handler;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import com.hardik.abn.assessment.exception.RecipeNotFoundException;
 import com.hardik.abn.assessment.model.entity.Recipe;
 import com.hardik.abn.assessment.model.rest.response.RecipeResponse;
+import com.hardik.abn.assessment.repository.specification.RecipeSpecificationsBuilder;
 import com.hardik.abn.assessment.service.RecipeService;
 
 @Component
@@ -58,5 +62,19 @@ public class RecipeHandler {
 	
 	public List<RecipeResponse> findByIsVegetaranAndNumberOfPerson(boolean isVegetarian, int numberOfPerson) {
 		return recipeService.findByIsVegetarianAndNumberOfPerson(isVegetarian, numberOfPerson).stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
+	}
+
+
+	public List<RecipeResponse> search(String search) {
+        RecipeSpecificationsBuilder builder = new RecipeSpecificationsBuilder();
+        Pattern pattern = Pattern.compile("([A-Za-z0-9'_ ]+?)(:|<|>)([A-Za-z0-9_ ]+?),");
+        Matcher matcher = pattern.matcher(search + ",");
+        while (matcher.find()) {
+            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
+        }
+        
+        Specification<Recipe> spec = builder.build();
+
+		return recipeService.search(spec).stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
 	}
 }

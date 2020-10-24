@@ -125,7 +125,6 @@ class RecipeContollerTest {
 
 		RecipeRequest recipeRequest = new RecipeRequest();
 		recipeRequest.setCookingInstruction("test");
-		recipeRequest.setCreateDate(new Date());
 		recipeRequest.setNumberOfPerson(2);
 		recipeRequest.setVegetarian(true);
 		List<IngredientRequest> ingredientRequests = new ArrayList<>();
@@ -172,7 +171,6 @@ class RecipeContollerTest {
 
 		RecipeRequest recipeRequest = new RecipeRequest();
 		recipeRequest.setCookingInstruction("test");
-		recipeRequest.setCreateDate(new Date());
 		recipeRequest.setNumberOfPerson(2);
 		recipeRequest.setVegetarian(true);
 		List<IngredientRequest> ingredientRequests = new ArrayList<>();

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RecipeRequest {
 
-	private Date createDate;
+	private String name;
 	private boolean isVegetarian;
 	private int numberOfPerson;
 	private String cookingInstruction;
@@ -22,9 +22,10 @@ public class RecipeRequest {
 	public Recipe toModel() {
 		Recipe recipe = new Recipe();
 		recipe.setCookingInstruction(this.cookingInstruction);
-		recipe.setCreateDate(this.createDate);
+		recipe.setCreateDate(new Date());
 		recipe.setNumberOfPerson(this.numberOfPerson);
 		recipe.setVegetarian(this.isVegetarian);
+		recipe.setName(this.name);
 		recipe.setIngredients(ingredients.stream().map(IngredientRequest::toModel).collect(Collectors.toList()));
 		return recipe;
 	}

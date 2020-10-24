@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.hardik.abn.assessment.model.entity.Recipe;
@@ -54,6 +55,11 @@ public class RecipeServiceImpl implements RecipeService {
 	@Override
 	public Recipe updateRecipe(Recipe recipe) {
 		return recipeRepository.save(recipe);
+	}
+
+	@Override
+	public List<Recipe> search(Specification<Recipe> spec) {
+		return recipeRepository.findAll(spec);
 	}
 
 }
