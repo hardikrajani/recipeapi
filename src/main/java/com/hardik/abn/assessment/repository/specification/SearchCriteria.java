@@ -1,10 +1,17 @@
 package com.hardik.abn.assessment.repository.specification;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class SearchCriteria {
-    private String key;
+public class SearchCriteria implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1973003177274238863L;
+	
+	private String key;
     private String operation;
     private Object value;
     private boolean orPredicate;

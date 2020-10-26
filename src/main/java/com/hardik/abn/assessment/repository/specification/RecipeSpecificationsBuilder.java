@@ -13,14 +13,14 @@ public class RecipeSpecificationsBuilder {
     private final List<SearchCriteria> params;
     
     public RecipeSpecificationsBuilder() {
-        params = new ArrayList<SearchCriteria>();
+        params = new ArrayList<>();
     }
  
     public RecipeSpecificationsBuilder with(SearchCriteria searchCriteria) {
     	return this.with(searchCriteria.getKey(), searchCriteria.getOperation(), searchCriteria.getValue());
     }
     public RecipeSpecificationsBuilder with(String key, String operation, Object value) {
-    	System.out.println(key + " : " + value);
+
     	boolean isOr = false;
     	if(key.contains("'")) {
     		isOr = true;
@@ -35,7 +35,7 @@ public class RecipeSpecificationsBuilder {
     }
  
     public Specification<Recipe> build() {
-        if (params.size() == 0) {
+        if (params.isEmpty()) {
             return null;
         }
  
@@ -46,12 +46,16 @@ public class RecipeSpecificationsBuilder {
         Specification<Recipe> result = specs.get(0);
  
         for (int i = 1; i < params.size(); i++) {
-            result = params.get(i)
-              .isOrPredicate()
-                ? Specification.where(result)
-                  .or(specs.get(i))
-                : Specification.where(result)
-                  .and(specs.get(i));
+        	Specification<Recipe> specification = Specification.where(result);
+        	
+        	if(specification != null) {
+                result = params.get(i)
+                        .isOrPredicate()
+                          ? specification
+                            .or(specs.get(i))
+                          : specification
+                            .and(specs.get(i));       		
+        	}
         }       
         return result;
     }

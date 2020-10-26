@@ -72,7 +72,7 @@ class RecipeRepositorySpecificationsTest {
 	}
 
 	@Test
-	public void givenVegetarian_whenGettingListOfRecipe_thenCorrect() {
+	void givenVegetarian_whenGettingListOfRecipe_thenCorrect() {
 		RecipeSpecification spec = 
 	      new RecipeSpecification(new SearchCriteria("isVegetarian", ":", true));
 	    
@@ -86,7 +86,7 @@ class RecipeRepositorySpecificationsTest {
 	}
 
 	@Test
-	public void givenName_whenGettingListOfRecipe_thenCorrect() {
+	void givenName_whenGettingListOfRecipe_thenCorrect() {
 		RecipeSpecification spec = 
 	      new RecipeSpecification(new SearchCriteria("name", ":", "Samosa"));
 	    
@@ -100,7 +100,7 @@ class RecipeRepositorySpecificationsTest {
 	}
 		
 	@Test
-	public void givenNumberOfPersonIsGreater_whenGettingListOfRecipe_thenCorrect() {
+	void givenNumberOfPersonIsGreater_whenGettingListOfRecipe_thenCorrect() {
 		RecipeSpecification spec = 
 	      new RecipeSpecification(new SearchCriteria("numberOfPerson", ">", 2));
 	    
@@ -114,7 +114,7 @@ class RecipeRepositorySpecificationsTest {
 	}
 	
 	@Test
-	public void givenNumberOfPersonIsLess_whenGettingListOfRecipe_thenCorrect() {
+	void givenNumberOfPersonIsLess_whenGettingListOfRecipe_thenCorrect() {
 		RecipeSpecification spec = 
 	      new RecipeSpecification(new SearchCriteria("numberOfPerson", "<", 2));
 	    
@@ -128,7 +128,7 @@ class RecipeRepositorySpecificationsTest {
 	}
 
 	@Test
-	public void givenNWrongOperation_whenGettingListOfRecipe_thenCorrect() {
+	void givenNWrongOperation_whenGettingListOfRecipe_thenCorrect() {
 		RecipeSpecification spec = 
 	      new RecipeSpecification(new SearchCriteria("numberOfPerson", "<=", 2));
 	    
@@ -142,7 +142,7 @@ class RecipeRepositorySpecificationsTest {
 	}
 	
 	@Test
-	public void givenNameOrNumberOfPerson_whenGettingListOfRecipes_thenCorrect() {
+	void givenNameOrNumberOfPerson_whenGettingListOfRecipes_thenCorrect() {
 	    RecipeSpecificationsBuilder builder = new RecipeSpecificationsBuilder();
 	 
 	    SearchCriteria spec 
@@ -161,7 +161,7 @@ class RecipeRepositorySpecificationsTest {
 	}
 
 	@Test
-	public void givenNameAndNumberOfPerson_whenGettingListOfUsers_thenCorrect() {
+	void givenNameAndNumberOfPerson_whenGettingListOfUsers_thenCorrect() {
 	    RecipeSpecificationsBuilder builder = new RecipeSpecificationsBuilder();
 	 
 	    SearchCriteria spec 

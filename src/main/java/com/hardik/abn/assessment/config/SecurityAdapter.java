@@ -36,24 +36,4 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-//
-//	  @Override
-//	  protected void configure(HttpSecurity httpSecurity) throws Exception {
-//			
-//			httpSecurity.headers().frameOptions().disable();		    
-//			httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/v1/**").permitAll().anyRequest().hasAnyRole("USER").and()
-//					.httpBasic();
-//
-//	  }
-//
-//	  
-//
-//	  @Autowired
-//	  public void configureGlobal(AuthenticationManagerBuilder auth)
-//	      throws Exception {
-//	    auth
-//	    .inMemoryAuthentication()
-//	    .withUser("abn").password("{noop}password")
-//	    .authorities("USER");
-//	  }
 }
