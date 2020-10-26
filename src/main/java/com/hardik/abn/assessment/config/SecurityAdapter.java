@@ -10,15 +10,31 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * The Class SecurityAdapter is to enable web security and provide basic
+ * autentication.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityAdapter extends WebSecurityConfigurerAdapter {
 
+	/**
+	 * Configure global.
+	 *
+	 * @param auth the auth
+	 * @throws Exception the exception
+	 */
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication().withUser("user1").password(passwordEncoder().encode("user1Pass")).roles("USER");
 	}
 
+	/**
+	 * Configure.
+	 *
+	 * @param http the http
+	 * @throws Exception the exception
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.headers().frameOptions().disable();
@@ -26,6 +42,11 @@ public class SecurityAdapter extends WebSecurityConfigurerAdapter {
 
 	}
 
+	/**
+	 * Password encoder.
+	 *
+	 * @return the password encoder
+	 */
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

@@ -21,27 +21,34 @@ import lombok.Data;
 @EnableAutoConfiguration
 public class Recipe {
 
+	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	long id;
 
+	/** The create date. */
 	@Column(name = "create_date")
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
 	Date createDate;
 
+	/** The is vegetarian. */
 	@Column(name = "vegetarian")
 	boolean isVegetarian;
 
+	/** The number of person. */
 	@Column(name = "number_of_person")
 	int numberOfPerson;
 
+	/** The name. */
 	@Column(name = "name")
 	String name;
 
+	/** The cooking instruction. */
 	@Column(name = "cooking_instructions")
 	String cookingInstruction;
 
+	/** The ingredients. */
 	@OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
 	@Column(name = "ingredients")
 	List<Ingredient> ingredients;

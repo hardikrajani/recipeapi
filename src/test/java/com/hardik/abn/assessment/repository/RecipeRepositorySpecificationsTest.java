@@ -72,7 +72,7 @@ class RecipeRepositorySpecificationsTest {
 	}
 
 	@Test
-	void givenVegetarian_whenGettingListOfRecipe_thenCorrect() {
+	void givenVegetarian_whenGettingListOfRecipe_thenGetListOfVegRecipes() {
 		RecipeSpecification spec = new RecipeSpecification(new SearchCriteria("isVegetarian", ":", true));
 
 		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
@@ -86,7 +86,7 @@ class RecipeRepositorySpecificationsTest {
 	}
 
 	@Test
-	void givenName_whenGettingListOfRecipe_thenCorrect() {
+	void givenName_whenGettingListOfRecipe_thenGetListOfAllRecipeWithName() {
 		RecipeSpecification spec = new RecipeSpecification(new SearchCriteria("name", ":", "Samosa"));
 
 		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
@@ -100,7 +100,7 @@ class RecipeRepositorySpecificationsTest {
 	}
 
 	@Test
-	void givenNumberOfPersonIsGreater_whenGettingListOfRecipe_thenCorrect() {
+	void givenNumberOfPersonIsGreater_whenGettingListOfRecipe_thenAllRecipeForMoreNumberOfPersons() {
 		RecipeSpecification spec = new RecipeSpecification(new SearchCriteria("numberOfPerson", ">", 2));
 
 		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
@@ -114,7 +114,7 @@ class RecipeRepositorySpecificationsTest {
 	}
 
 	@Test
-	void givenNumberOfPersonIsLess_whenGettingListOfRecipe_thenCorrect() {
+	void givenNumberOfPersonIsLess_whenGettingListOfRecipe_thenAllRecipeForLessNumberOfPersons() {
 		RecipeSpecification spec = new RecipeSpecification(new SearchCriteria("numberOfPerson", "<", 2));
 
 		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
@@ -128,7 +128,7 @@ class RecipeRepositorySpecificationsTest {
 	}
 
 	@Test
-	void givenNWrongOperation_whenGettingListOfRecipe_thenCorrect() {
+	void givenWrongOperation_whenGettingListOfRecipe_thenShouldReturnAllRecipes() {
 		RecipeSpecification spec = new RecipeSpecification(new SearchCriteria("numberOfPerson", "<=", 2));
 
 		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
@@ -142,7 +142,7 @@ class RecipeRepositorySpecificationsTest {
 	}
 
 	@Test
-	void givenNameOrNumberOfPerson_whenGettingListOfRecipes_thenCorrect() {
+	void givenNameOrNumberOfPerson_whenGettingListOfRecipes_thenShouldReturnCombination() {
 		RecipeSpecificationsBuilder builder = new RecipeSpecificationsBuilder();
 
 		SearchCriteria spec = new SearchCriteria("name", ":", "Samosa");
@@ -160,7 +160,7 @@ class RecipeRepositorySpecificationsTest {
 	}
 
 	@Test
-	void givenNameAndNumberOfPerson_whenGettingListOfUsers_thenCorrect() {
+	void givenNameAndNumberOfPerson_whenGettingListOfRecipes_thenShouldReturnCombination() {
 		RecipeSpecificationsBuilder builder = new RecipeSpecificationsBuilder();
 
 		SearchCriteria spec = new SearchCriteria("name", ":", "Samosa");

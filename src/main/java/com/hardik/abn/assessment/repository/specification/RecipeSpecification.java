@@ -15,13 +15,20 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RecipeSpecification implements Specification<Recipe> {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -3783700882212171019L;
 
+	/** The criteria. */
 	private SearchCriteria criteria;
 
+	/**
+	 * To predicate.
+	 *
+	 * @param root    the root
+	 * @param query   the query
+	 * @param builder the builder
+	 * @return the predicate
+	 */
 	@Override
 	public Predicate toPredicate(Root<Recipe> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 

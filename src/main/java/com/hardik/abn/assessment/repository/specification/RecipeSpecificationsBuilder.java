@@ -8,18 +8,39 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.hardik.abn.assessment.model.entity.Recipe;
 
+/**
+ * The Class RecipeSpecificationsBuilder.
+ */
 public class RecipeSpecificationsBuilder {
 
+	/** The params. */
 	private final List<SearchCriteria> params;
 
+	/**
+	 * Instantiates a new recipe specifications builder.
+	 */
 	public RecipeSpecificationsBuilder() {
 		params = new ArrayList<>();
 	}
 
+	/**
+	 * With.
+	 *
+	 * @param searchCriteria the search criteria
+	 * @return the recipe specifications builder
+	 */
 	public RecipeSpecificationsBuilder with(SearchCriteria searchCriteria) {
 		return this.with(searchCriteria.getKey(), searchCriteria.getOperation(), searchCriteria.getValue());
 	}
 
+	/**
+	 * With.
+	 *
+	 * @param key       the key
+	 * @param operation the operation
+	 * @param value     the value
+	 * @return the recipe specifications builder
+	 */
 	public RecipeSpecificationsBuilder with(String key, String operation, Object value) {
 
 		boolean isOr = false;
@@ -35,6 +56,11 @@ public class RecipeSpecificationsBuilder {
 		return this;
 	}
 
+	/**
+	 * Builds the.
+	 *
+	 * @return the specification
+	 */
 	public Specification<Recipe> build() {
 		if (params.isEmpty()) {
 			return null;

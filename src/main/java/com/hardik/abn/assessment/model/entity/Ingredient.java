@@ -12,14 +12,17 @@ import lombok.Data;
 @Entity(name = "ingredient")
 public class Ingredient {
 
+	/** The id. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	long id;
 
+	/** The ingredient name. */
 	@Column(name = "ingredient_name")
 	String ingredientName;
 
+	/** The ingredient desciption. */
 	@Column(name = "ingredient_desciption")
 	String ingredientDesciption;
 }

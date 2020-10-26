@@ -14,15 +14,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RecipeResponse {
 
+	/** The id. */
 	private long id;
+
+	/** The name. */
 	private String name;
+
+	/** The create date. */
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date createDate;
+
+	/** The is vegetarian. */
 	private boolean isVegetarian;
+
+	/** The number of person. */
 	private int numberOfPerson;
+
+	/** The cooking instruction. */
 	private String cookingInstruction;
+
+	/** The ingredients. */
 	private List<IngredientResponse> ingredients;
 
+	/**
+	 * From model.
+	 *
+	 * @param recipe the recipe
+	 * @return the recipe response
+	 */
 	public static RecipeResponse fromModel(Recipe recipe) {
 		RecipeResponse recipeResponse = new RecipeResponse();
 		recipeResponse.setCookingInstruction(recipe.getCookingInstruction());

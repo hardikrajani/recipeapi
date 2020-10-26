@@ -50,6 +50,7 @@ class RecipeHandlerTest {
 
 	private List<Recipe> recipeEntities;
 	private Recipe recipeEntity;
+	private Recipe recipeEntityInValid;
 
 	@BeforeEach
 	public void setUp() {
@@ -87,10 +88,10 @@ class RecipeHandlerTest {
 	}
 
 	@Test
-	void testGetAllRecipe() {
+	void testGetAllRecipes() {
 		Mockito.when(recipeService.getAll()).thenReturn(recipeEntities);
 
-		List<RecipeResponse> recipes = recipeHandler.getAllRecipe();
+		List<RecipeResponse> recipes = recipeHandler.getAllRecipes();
 
 		assertThat(recipes.size()).isPositive();
 	}
@@ -133,6 +134,18 @@ class RecipeHandlerTest {
 		RecipeResponse recipes = recipeHandler.updateRecipe(recipeEntity);
 
 		assertThat(recipes.getId()).isEqualTo(1);
+	}
+
+	@Test
+	void testUpdateRecipe_whenResourceIsNotFound() {
+
+		Mockito.when(recipeService.findById(1L)).thenReturn(Optional.of(recipeEntity));
+
+		recipeEntityInValid = this.recipeEntity;
+		recipeEntityInValid.setId(3);
+
+		Assertions.assertThrows(RecipeNotFoundException.class, () -> recipeHandler.updateRecipe(recipeEntity));
+
 	}
 
 	@Test

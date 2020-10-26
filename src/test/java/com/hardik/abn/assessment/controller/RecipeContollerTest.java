@@ -114,7 +114,7 @@ class RecipeContollerTest {
 	@WithMockUser(username = "user1", password = "user1Pass", roles = "USER")
 	void testGetAll() throws Exception {
 
-		Mockito.when(recipeHandler.getAllRecipe()).thenReturn(recipes);
+		Mockito.when(recipeHandler.getAllRecipes()).thenReturn(recipes);
 
 		mockMvc.perform(get("/api/v1/recipe/").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].id", is(1)));
@@ -155,6 +155,18 @@ class RecipeContollerTest {
 
 	@Test
 	@WithMockUser(username = "user1", password = "user1Pass", roles = "USER")
+	void testCreateRecipe_invalidRecipeName() throws Exception {
+
+		Mockito.when(recipeHandler.createRecipe(recipeEntity)).thenReturn(recipe);
+
+		RecipeRequest recipeRequestInput = recipeRequest;
+		recipeRequestInput.setName("this is to test long name for recipe");
+		mockMvc.perform(post("/api/v1/recipe/").content(asJsonString(recipeRequestInput))
+				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().is(400));
+	}
+
+	@Test
+	@WithMockUser(username = "user1", password = "user1Pass", roles = "USER")
 	void testUpdateAccount() throws Exception {
 
 		long id = 1;
@@ -173,7 +185,7 @@ class RecipeContollerTest {
 
 		Mockito.when(recipeHandler.search(spec.toString())).thenReturn(recipes);
 
-		mockMvc.perform(get("/api/v1/recipe/search").param("search", "isVegetarian:true")
+		mockMvc.perform(get("/api/v1/recipe/searchByCriteria/{searchByCriteria}", "isVegetarian:true")
 				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(status().is(200));
 	}
 
