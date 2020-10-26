@@ -94,7 +94,7 @@ class RecipeContollerTest {
 		ingredientEntities.add(ingredientEntity2);
 		recipeEntity.setIngredients(ingredientEntities);
 
-		RecipeRequest recipeRequest = new RecipeRequest();
+		recipeRequest = new RecipeRequest();
 		recipeRequest.setCookingInstruction("test");
 		recipeRequest.setNumberOfPerson(2);
 		recipeRequest.setVegetarian(true);
