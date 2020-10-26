@@ -25,6 +25,17 @@ mvn spring-boot:run
 
 In case, If you want to run the application directly from IDE. Import the project to your favorite IDE as 'Existing maven project'. Select project from the IDE and run it as java application. “Don't forget to update maven ;)” I have configured the port to 8882 in properties. So the application can be accessed by `http://localhost:8882`
 
+Application is using H2 inmemory database. Following is the details of connection. 
+`http://localhost:8882`
+spring.datasource.url=jdbc:h2:file:./data/demo
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.datasource.driverClassName = org.h2.Driver
+spring.datasource.platform=h2
+spring.datasource.username = sa
+spring.datasource.password =
+
+Swagger is integrated for easy access of API. It can be accessed via `http://localhost:8882/swagger-ui.html`
+
 ## Authorization Details
 
 Basic authentication is implemented. You can access the api on the through following user details. This is only for demo purpose. I had to make CSRF disabled for testing purpose. It is not supposed to be used in production environment. 
