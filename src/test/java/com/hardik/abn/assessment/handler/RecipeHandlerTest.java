@@ -1,6 +1,7 @@
 package com.hardik.abn.assessment.handler;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.any;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -18,12 +19,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.hardik.abn.assessment.exception.RecipeNotFoundException;
 import com.hardik.abn.assessment.model.entity.Ingredient;
 import com.hardik.abn.assessment.model.entity.Recipe;
 import com.hardik.abn.assessment.model.rest.response.RecipeResponse;
+import com.hardik.abn.assessment.repository.specification.RecipeSpecification;
+import com.hardik.abn.assessment.repository.specification.SearchCriteria;
 import com.hardik.abn.assessment.service.RecipeService;
 import com.hardik.abn.assessment.service.impl.RecipeServiceImpl;
 
@@ -148,41 +152,20 @@ class RecipeHandlerTest {
         // then
         assertThat(recipes.getId()).isEqualTo(1);
 	}
-	
-	@Test
-	void testFindByIsVegerian() {
-        // given
-    	Mockito.when(recipeService.findByIsVegetarian(true)).thenReturn(recipeEntities);
-
-        // when
-        List<RecipeResponse> recipes = recipeHandler.findByIsVegerian(true);
-     
-        // then
-        assertThat(recipes.size()).isPositive();
-	}
 
 	@Test
-	void testFindByNumberOfPerson() {
+	void testSearch() {
+	   	
         // given
-    	Mockito.when(recipeService.findByNumberOfPerson(2)).thenReturn(recipeEntities);
+		RecipeSpecification spec = 
+			      new RecipeSpecification(new SearchCriteria(false, "isVegetarian", ":", true));
+
+    	Mockito.when(recipeService.search((spec))).thenReturn(recipeEntities);
 
         // when
-        List<RecipeResponse> recipes = recipeHandler.findByNumberOfPerson(2);
+        List<RecipeResponse> recipes = recipeHandler.search("isVegetarian:true");
      
         // then
-        assertThat(recipes.size()).isPositive();
+        assertThat(recipes.size()).isZero();
 	}
-
-	@Test
-	void testFindByIsVegetaranAndNumberOfPerson() {
-        // given
-    	Mockito.when(recipeService.findByIsVegetarianAndNumberOfPerson(true, 2)).thenReturn(recipeEntities);
-
-        // when
-        List<RecipeResponse> recipes = recipeHandler.findByIsVegetaranAndNumberOfPerson(true, 2);
-     
-        // then
-        assertThat(recipes.size()).isPositive();
-	}
-
 }

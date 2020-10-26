@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -32,6 +33,8 @@ import com.hardik.abn.assessment.model.rest.request.IngredientRequest;
 import com.hardik.abn.assessment.model.rest.request.RecipeRequest;
 import com.hardik.abn.assessment.model.rest.response.IngredientResponse;
 import com.hardik.abn.assessment.model.rest.response.RecipeResponse;
+import com.hardik.abn.assessment.repository.specification.RecipeSpecification;
+import com.hardik.abn.assessment.repository.specification.SearchCriteria;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RecipeContoller.class)
@@ -73,6 +76,7 @@ class RecipeContollerTest {
 	}
 
 	@Test
+	@WithMockUser(username = "user1", password = "user1Pass", roles = "USER")
 	void testGetAll() throws Exception {
 
 		Mockito.when(recipeHandler.getAllRecipe()).thenReturn(recipes);
@@ -82,6 +86,7 @@ class RecipeContollerTest {
 	}
 
 	@Test
+	@WithMockUser(username = "user1", password = "user1Pass", roles = "USER")
 	void testFindById() throws Exception {
 
 		long id = 1;
@@ -92,6 +97,7 @@ class RecipeContollerTest {
 	}
 
 	@Test
+	@WithMockUser(username = "user1", password = "user1Pass", roles = "USER")
 	void testDeleteRecipeById() throws Exception {
 		long id = 1;
 
@@ -102,6 +108,7 @@ class RecipeContollerTest {
 	}
 
 	@Test
+	@WithMockUser(username = "user1", password = "user1Pass", roles = "USER")
 	void testCreateRecipe() throws Exception {
 
 		Recipe recipeEntity = new Recipe();
@@ -147,6 +154,7 @@ class RecipeContollerTest {
 	}
 
 	@Test
+	@WithMockUser(username = "user1", password = "user1Pass", roles = "USER")
 	void testUpdateAccount() throws Exception {
 
 		long id = 1; 
@@ -193,33 +201,17 @@ class RecipeContollerTest {
 	}
 
 	@Test
-	void testFindByIsVegerianBoolean() throws Exception {
-		boolean isVegetarian = true;
-		Mockito.when(recipeHandler.findByIsVegerian(isVegetarian)).thenReturn(recipes);
+	@WithMockUser(username = "user1", password = "user1Pass", roles = "USER")
+	void testSearch() throws Exception {
 
-		mockMvc.perform(get("/api/v1/recipe/vegetarian/{isVegetarian}", isVegetarian).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk()).andExpect(jsonPath("$[0].id", is(1)));
+		RecipeSpecification spec = 
+			      new RecipeSpecification(new SearchCriteria("isVegetarian", ":", true));
+
+		Mockito.when(recipeHandler.search(spec.toString())).thenReturn(recipes);
+
+		mockMvc.perform(get("/api/v1/recipe/search").param("search", "isVegetarian:true").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk()).andExpect(status().is(200));
 	}
-
-	@Test
-	void testFindByNumberOfPerson() throws Exception {
-		int numberOfPerson = 2;
-		Mockito.when(recipeHandler.findByNumberOfPerson(numberOfPerson)).thenReturn(recipes);
-
-		mockMvc.perform(get("/api/v1/recipe/forperson/{numberOfPerson}", numberOfPerson).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk()).andExpect(jsonPath("$[0].id", is(1)));
-	}
-
-	@Test
-	void testFindByIsVegerianBooleanInt() throws Exception {
-		boolean isVegetarian = true;
-		int numberOfPerson = 2;
-		Mockito.when(recipeHandler.findByIsVegetaranAndNumberOfPerson(isVegetarian, numberOfPerson)).thenReturn(recipes);
-
-		mockMvc.perform(get("/api/v1/recipe/vegetarianforperson/{isVegetarian}/{numberOfPerson}", isVegetarian, numberOfPerson).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk()).andExpect(jsonPath("$[0].id", is(1)));
-	}
-
 
 	public String asJsonString(final Object obj) {
 		try {

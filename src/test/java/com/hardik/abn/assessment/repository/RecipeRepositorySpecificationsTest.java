@@ -11,10 +11,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.hardik.abn.assessment.model.entity.Ingredient;
 import com.hardik.abn.assessment.model.entity.Recipe;
@@ -24,16 +25,16 @@ import com.hardik.abn.assessment.repository.specification.RecipeSpecificationsBu
 import com.hardik.abn.assessment.repository.specification.SearchCriteria;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
-@Transactional	
+@SpringBootTest	
 class RecipeRepositorySpecificationsTest {
 
-	@Autowired
+	@MockBean
 	private RecipeRepository recipeRepository;
 	
     private Recipe samosa;
     private Recipe tea;
-	
+	List<Recipe> recipes = new ArrayList<Recipe>();
+    
 	@BeforeEach
 	void setUp() {
 		samosa = new Recipe();
@@ -66,8 +67,8 @@ class RecipeRepositorySpecificationsTest {
 		teaIngredients.add(teaIngredient2);
 		tea.setIngredients(teaIngredients);		
 		
-		recipeRepository.save(samosa);
-		recipeRepository.save(tea);
+		recipes.add(tea);
+		recipes.add(samosa);
 	}
 
 	@Test
@@ -75,6 +76,8 @@ class RecipeRepositorySpecificationsTest {
 		RecipeSpecification spec = 
 	      new RecipeSpecification(new SearchCriteria("isVegetarian", ":", true));
 	    
+		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
+		
 	    List<Recipe> results = recipeRepository.findAll(spec);
 	 
 	    List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
@@ -87,6 +90,8 @@ class RecipeRepositorySpecificationsTest {
 		RecipeSpecification spec = 
 	      new RecipeSpecification(new SearchCriteria("name", ":", "Samosa"));
 	    
+		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
+		
 	    List<Recipe> results = recipeRepository.findAll(spec);
 	 
 	    List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
@@ -99,6 +104,8 @@ class RecipeRepositorySpecificationsTest {
 		RecipeSpecification spec = 
 	      new RecipeSpecification(new SearchCriteria("numberOfPerson", ">", 2));
 	    
+		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
+		
 	    List<Recipe> results = recipeRepository.findAll(spec);
 	 
 	    List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
@@ -111,6 +118,8 @@ class RecipeRepositorySpecificationsTest {
 		RecipeSpecification spec = 
 	      new RecipeSpecification(new SearchCriteria("numberOfPerson", "<", 2));
 	    
+		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
+		
 	    List<Recipe> results = recipeRepository.findAll(spec);
 	 
 	    List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
@@ -123,6 +132,8 @@ class RecipeRepositorySpecificationsTest {
 		RecipeSpecification spec = 
 	      new RecipeSpecification(new SearchCriteria("numberOfPerson", "<=", 2));
 	    
+		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
+		
 	    List<Recipe> results = recipeRepository.findAll(spec);
 	 
 	    List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
@@ -138,8 +149,11 @@ class RecipeRepositorySpecificationsTest {
 	      = new SearchCriteria("name", ":", "Samosa");
 	    SearchCriteria spec1 
 	      = new SearchCriteria("'numberOfPerson", "<", "2");
-	 
-	    List<Recipe> results = recipeRepository.findAll(builder.with(spec).with(spec1).build());
+	    Specification<Recipe> specs = builder.with(spec).with(spec1).build();
+	    
+		Mockito.when(recipeRepository.findAll(specs)).thenReturn(recipes);
+
+	    List<Recipe> results = recipeRepository.findAll(specs);
 	    List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
 	    
 	    assertThat(recipeResponses).extracting("name").contains("Samosa");
@@ -154,8 +168,12 @@ class RecipeRepositorySpecificationsTest {
 	      = new SearchCriteria("name", ":", "Samosa");
 	    SearchCriteria spec1 
 	      = new SearchCriteria("numberOfPerson", ">", "2");
-	 
-	    List<Recipe> results = recipeRepository.findAll(builder.with(spec).with(spec1).build());
+
+	    Specification<Recipe> specs = builder.with(spec).with(spec1).build();
+	    
+		Mockito.when(recipeRepository.findAll(specs)).thenReturn(recipes);
+
+	    List<Recipe> results = recipeRepository.findAll(specs);
 	    List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
 	    
 	    assertThat(recipeResponses).extracting("name").contains("Samosa");

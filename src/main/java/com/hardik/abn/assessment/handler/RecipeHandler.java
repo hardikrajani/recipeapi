@@ -51,20 +51,6 @@ public class RecipeHandler {
         return RecipeResponse.fromModel(recipeService.updateRecipe(model));
 	}
 
-
-	public List<RecipeResponse> findByIsVegerian(boolean isVegetarian) {
-		return recipeService.findByIsVegetarian(isVegetarian).stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
-	}
-	
-	public List<RecipeResponse> findByNumberOfPerson(int numberOfPerson) {
-		return recipeService.findByNumberOfPerson(numberOfPerson).stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
-	}
-	
-	public List<RecipeResponse> findByIsVegetaranAndNumberOfPerson(boolean isVegetarian, int numberOfPerson) {
-		return recipeService.findByIsVegetarianAndNumberOfPerson(isVegetarian, numberOfPerson).stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
-	}
-
-
 	public List<RecipeResponse> search(String search) {
         RecipeSpecificationsBuilder builder = new RecipeSpecificationsBuilder();
         Pattern pattern = Pattern.compile("([A-Za-z0-9'_ ]+?)(:|<|>)([A-Za-z0-9_ ]+?),");

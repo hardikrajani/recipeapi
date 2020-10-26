@@ -1,7 +1,6 @@
 package com.hardik.abn.assessment.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +21,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.hardik.abn.assessment.model.entity.Ingredient;
 import com.hardik.abn.assessment.model.entity.Recipe;
 import com.hardik.abn.assessment.repository.RecipeRepository;
+import com.hardik.abn.assessment.repository.specification.RecipeSpecification;
+import com.hardik.abn.assessment.repository.specification.SearchCriteria;
 import com.hardik.abn.assessment.service.RecipeService;
 
 @RunWith(SpringRunner.class)
@@ -98,46 +99,6 @@ class RecipeServiceImplTest {
     }
 
     @Test
-    void whenFindByIsVegetarian_thenReturnRecipeList() {
-        // given
-    	boolean isVegetarian = true;
-    	Mockito.when(recipeRepository.findByIsVegetarian(isVegetarian)).thenReturn(recipes);
-
-        // when
-        List<Recipe> recipes = recipeService.findByIsVegetarian(isVegetarian);
-     
-        // then
-        assertThat(recipes.size()).isPositive();
-    }
-    
-    @Test
-    void whenFindByNumberOfPerson_thenReturnRecipeList() {
-        // given
-    	int numberOfPersons = 2;
-    	Mockito.when(recipeRepository.findByNumberOfPerson(numberOfPersons)).thenReturn(recipes);
-
-        // when
-        List<Recipe> recipes = recipeService.findByNumberOfPerson(numberOfPersons);
-     
-        // then
-        assertThat(recipes.size()).isPositive();
-    }
-
-    @Test
-    void whenFindByIsVegetarianAndNumberOfPerson_thenReturnRecipeList() {
-        // given
-    	int numberOfPersons = 2;
-    	boolean isVegetarian = true;
-    	Mockito.when(recipeRepository.findByIsVegetarianAndNumberOfPerson(isVegetarian, numberOfPersons)).thenReturn(recipes);
-
-        // when
-        List<Recipe> recipes = recipeService.findByIsVegetarianAndNumberOfPerson(isVegetarian, numberOfPersons);
-     
-        // then
-        assertThat(recipes.size()).isPositive();
-    }
-    
-    @Test
     void whenCreateRecipe_thenReturnRecipeList() {
         // given
     	Mockito.when(recipeRepository.save(recipe)).thenReturn(recipe);
@@ -172,5 +133,19 @@ class RecipeServiceImplTest {
         // then
         assertThat(recipes.getId()).isEqualTo(1L);
     }
-    
+
+    @Test
+    void whenFindAll_thenReturnRecipeList() {
+        // given
+		RecipeSpecification spec = 
+			      new RecipeSpecification(new SearchCriteria("isVegetarian", ":", true));
+
+    	Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
+
+        // when
+        List<Recipe> recipes = recipeService.search(spec);
+     
+        // then
+        assertThat(recipes.size()).isPositive();
+    }
 }

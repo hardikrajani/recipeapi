@@ -54,21 +54,6 @@ public class RecipeContoller {
     	return ResponseEntity.status(HttpStatus.CREATED).body(recipeHandler.updateRecipe(recipeRequest.toModel(id)));
     }
     
-    @GetMapping("/vegetarian/{isVegetarian}")
-    public ResponseEntity<List<RecipeResponse>> findByIsVegerian(@PathVariable boolean isVegetarian) {
-    	return ResponseEntity.ok(recipeHandler.findByIsVegerian(isVegetarian));
-    }
-    
-    @GetMapping("/forperson/{numberOfPerson}")
-    public ResponseEntity<List<RecipeResponse>> findByNumberOfPerson(@PathVariable int numberOfPerson) {
-    	return ResponseEntity.ok(recipeHandler.findByNumberOfPerson(numberOfPerson));
-    }
-    
-    @GetMapping("/vegetarianforperson/{isVegetarian}/{numberOfPerson}")
-    public ResponseEntity<List<RecipeResponse>> findByVegetarianforperson(@PathVariable("isVegetarian") boolean isVegetarian, @PathVariable("numberOfPerson") int numberOfPerson) {
-    	return ResponseEntity.ok(recipeHandler.findByIsVegetaranAndNumberOfPerson(isVegetarian, numberOfPerson));
-    }
-    
     @GetMapping("/search")
     public List<RecipeResponse> search(@RequestParam(value = "search") String search) {
         return recipeHandler.search(search);

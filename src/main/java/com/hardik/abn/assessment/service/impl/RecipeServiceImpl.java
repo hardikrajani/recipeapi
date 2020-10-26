@@ -28,21 +28,6 @@ public class RecipeServiceImpl implements RecipeService {
 	}
 
 	@Override
-	public List<Recipe> findByIsVegetarian(boolean isVegetarian) {
-		return recipeRepository.findByIsVegetarian(isVegetarian);
-	}
-
-	@Override
-	public List<Recipe> findByNumberOfPerson(int numberOfPerson) {
-		return recipeRepository.findByNumberOfPerson(numberOfPerson);
-	}
-
-	@Override
-	public List<Recipe> findByIsVegetarianAndNumberOfPerson(boolean isVegetarian, int numberOfPerson) {
-		return recipeRepository.findByIsVegetarianAndNumberOfPerson(isVegetarian, numberOfPerson);
-	}
-
-	@Override
 	public Recipe createRecipe(Recipe recipe) {
 		return recipeRepository.save(recipe);		
 	}
