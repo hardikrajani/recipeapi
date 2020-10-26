@@ -7,6 +7,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.hardik.abn.assessment.exception.RecipeAttributeNotFoundException;
 import com.hardik.abn.assessment.model.entity.Recipe;
 
 import lombok.AllArgsConstructor;
@@ -24,16 +25,20 @@ public class RecipeSpecification implements Specification<Recipe> {
 	@Override
 	public Predicate toPredicate(Root<Recipe> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 
-		if (criteria.getOperation().equalsIgnoreCase(">")) {
-			return builder.greaterThanOrEqualTo(root.<String>get(criteria.getKey()), criteria.getValue().toString());
-		} else if (criteria.getOperation().equalsIgnoreCase("<")) {
-			return builder.lessThanOrEqualTo(root.<String>get(criteria.getKey()), criteria.getValue().toString());
-		} else if (criteria.getOperation().equalsIgnoreCase(":")) {
-			if (root.get(criteria.getKey()).getJavaType() == String.class) {
-				return builder.like(root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
-			} else {
-				return builder.equal(root.get(criteria.getKey()), criteria.getValue());
-			}
+		try {
+			if (criteria.getOperation().equalsIgnoreCase(">")) {
+				return builder.greaterThanOrEqualTo(root.<String>get(criteria.getKey()), criteria.getValue().toString());
+			} else if (criteria.getOperation().equalsIgnoreCase("<")) {
+				return builder.lessThanOrEqualTo(root.<String>get(criteria.getKey()), criteria.getValue().toString());
+			} else if (criteria.getOperation().equalsIgnoreCase(":")) {
+				if (root.get(criteria.getKey()).getJavaType() == String.class) {
+					return builder.like(root.<String>get(criteria.getKey()), "%" + criteria.getValue() + "%");
+				} else {
+					return builder.equal(root.get(criteria.getKey()), criteria.getValue());
+				}
+			}			
+		} catch (IllegalArgumentException e) {
+			throw new RecipeAttributeNotFoundException(e.getMessage());
 		}
 		return null;
 	}

@@ -35,7 +35,7 @@ public class RecipeHandler {
 	public RecipeResponse findById(long recipeId) {
 		Optional<Recipe> recipe = recipeService.findById(recipeId);
 		if(recipe.isEmpty()) 
-			throw new RecipeNotFoundException("recipe is not found for recipeId=", recipeId);
+			throw new RecipeNotFoundException("recipe is not found for recipeId=" + recipeId);
 		
 		return RecipeResponse.fromModel(recipe.get());
 	}
