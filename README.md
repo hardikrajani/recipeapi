@@ -97,7 +97,7 @@ Basic authentication is implemented. You can access the api on the through follo
 
 ```
  
-- GetAll Recipes
+- Get All Recipes
 	- Get all recipe service is used to get list of all the recipes. Following is the api url. It is GET request. 
 
 ```
@@ -157,6 +157,6 @@ As per the requirement given, User should be able to search by all 5 fields of t
 
 All the validations are imaginary, it is only for the demo purpose. 
 
-html.csrf().disabled() is only used for demo purpose. It needs to be enabled for actual API. This is only to make it available to postman for testing. 
+httpSecurity.csrf().disabled() is only used for demo purpose. It needs to be enabled for actual API. This is only to make it available to postman for testing. 
 
 Code coverage is not considered for model and dto classes.
