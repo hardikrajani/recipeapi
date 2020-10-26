@@ -16,7 +16,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Autowired
 	RecipeRepository recipeRepository;
-	
+
 	@Override
 	public List<Recipe> getAll() {
 		return recipeRepository.findAll();
@@ -29,7 +29,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public Recipe createRecipe(Recipe recipe) {
-		return recipeRepository.save(recipe);		
+		return recipeRepository.save(recipe);
 	}
 
 	@Override

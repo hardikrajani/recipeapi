@@ -11,12 +11,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-    @Bean
-    public Docket accountApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.hardik.abn.assessment.controller"))
-                .build();
-    }
-    
+	@Bean
+	public Docket accountApi() {
+		return new Docket(DocumentationType.SWAGGER_2).select()
+				.apis(RequestHandlerSelectors.basePackage("com.hardik.abn.assessment.controller")).build();
+	}
+
 }

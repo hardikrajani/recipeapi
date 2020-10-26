@@ -25,16 +25,16 @@ import com.hardik.abn.assessment.repository.specification.RecipeSpecificationsBu
 import com.hardik.abn.assessment.repository.specification.SearchCriteria;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest	
+@SpringBootTest
 class RecipeRepositorySpecificationsTest {
 
 	@MockBean
 	private RecipeRepository recipeRepository;
-	
-    private Recipe samosa;
-    private Recipe tea;
+
+	private Recipe samosa;
+	private Recipe tea;
 	List<Recipe> recipes = new ArrayList<Recipe>();
-    
+
 	@BeforeEach
 	void setUp() {
 		samosa = new Recipe();
@@ -49,7 +49,7 @@ class RecipeRepositorySpecificationsTest {
 		samosaIngredient1.setIngredientName("Potato");
 		samosaIngredients.add(samosaIngredient1);
 		samosa.setIngredients(samosaIngredients);
-		
+
 		tea = new Recipe();
 		tea.setName("Indian Tea");
 		tea.setCookingInstruction("well mixed milk with tea leaves");
@@ -65,120 +65,118 @@ class RecipeRepositorySpecificationsTest {
 		teaIngredient2.setIngredientDesciption("sugar");
 		teaIngredient2.setIngredientName("sugar");
 		teaIngredients.add(teaIngredient2);
-		tea.setIngredients(teaIngredients);		
-		
+		tea.setIngredients(teaIngredients);
+
 		recipes.add(tea);
 		recipes.add(samosa);
 	}
 
 	@Test
 	void givenVegetarian_whenGettingListOfRecipe_thenCorrect() {
-		RecipeSpecification spec = 
-	      new RecipeSpecification(new SearchCriteria("isVegetarian", ":", true));
-	    
+		RecipeSpecification spec = new RecipeSpecification(new SearchCriteria("isVegetarian", ":", true));
+
 		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
-		
-	    List<Recipe> results = recipeRepository.findAll(spec);
-	 
-	    List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
-	    
-	    assertThat(recipeResponses).extracting("isVegetarian").contains(true);
+
+		List<Recipe> results = recipeRepository.findAll(spec);
+
+		List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel)
+				.collect(Collectors.toList());
+
+		assertThat(recipeResponses).extracting("isVegetarian").contains(true);
 	}
 
 	@Test
 	void givenName_whenGettingListOfRecipe_thenCorrect() {
-		RecipeSpecification spec = 
-	      new RecipeSpecification(new SearchCriteria("name", ":", "Samosa"));
-	    
+		RecipeSpecification spec = new RecipeSpecification(new SearchCriteria("name", ":", "Samosa"));
+
 		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
-		
-	    List<Recipe> results = recipeRepository.findAll(spec);
-	 
-	    List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
-	    
-	    assertThat(recipeResponses).extracting("name").contains("Samosa");
+
+		List<Recipe> results = recipeRepository.findAll(spec);
+
+		List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel)
+				.collect(Collectors.toList());
+
+		assertThat(recipeResponses).extracting("name").contains("Samosa");
 	}
-		
+
 	@Test
 	void givenNumberOfPersonIsGreater_whenGettingListOfRecipe_thenCorrect() {
-		RecipeSpecification spec = 
-	      new RecipeSpecification(new SearchCriteria("numberOfPerson", ">", 2));
-	    
+		RecipeSpecification spec = new RecipeSpecification(new SearchCriteria("numberOfPerson", ">", 2));
+
 		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
-		
-	    List<Recipe> results = recipeRepository.findAll(spec);
-	 
-	    List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
-	    
-	    assertThat(recipeResponses).extracting("numberOfPerson").contains(3);
+
+		List<Recipe> results = recipeRepository.findAll(spec);
+
+		List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel)
+				.collect(Collectors.toList());
+
+		assertThat(recipeResponses).extracting("numberOfPerson").contains(3);
 	}
-	
+
 	@Test
 	void givenNumberOfPersonIsLess_whenGettingListOfRecipe_thenCorrect() {
-		RecipeSpecification spec = 
-	      new RecipeSpecification(new SearchCriteria("numberOfPerson", "<", 2));
-	    
+		RecipeSpecification spec = new RecipeSpecification(new SearchCriteria("numberOfPerson", "<", 2));
+
 		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
-		
-	    List<Recipe> results = recipeRepository.findAll(spec);
-	 
-	    List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
-	    
-	    assertThat(recipeResponses).extracting("numberOfPerson").contains(1);
+
+		List<Recipe> results = recipeRepository.findAll(spec);
+
+		List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel)
+				.collect(Collectors.toList());
+
+		assertThat(recipeResponses).extracting("numberOfPerson").contains(1);
 	}
 
 	@Test
 	void givenNWrongOperation_whenGettingListOfRecipe_thenCorrect() {
-		RecipeSpecification spec = 
-	      new RecipeSpecification(new SearchCriteria("numberOfPerson", "<=", 2));
-	    
+		RecipeSpecification spec = new RecipeSpecification(new SearchCriteria("numberOfPerson", "<=", 2));
+
 		Mockito.when(recipeRepository.findAll(spec)).thenReturn(recipes);
-		
-	    List<Recipe> results = recipeRepository.findAll(spec);
-	 
-	    List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
-	    
-	    assertThat(recipeResponses).extracting("numberOfPerson").contains(1);
+
+		List<Recipe> results = recipeRepository.findAll(spec);
+
+		List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel)
+				.collect(Collectors.toList());
+
+		assertThat(recipeResponses).extracting("numberOfPerson").contains(1);
 	}
-	
+
 	@Test
 	void givenNameOrNumberOfPerson_whenGettingListOfRecipes_thenCorrect() {
-	    RecipeSpecificationsBuilder builder = new RecipeSpecificationsBuilder();
-	 
-	    SearchCriteria spec 
-	      = new SearchCriteria("name", ":", "Samosa");
-	    SearchCriteria spec1 
-	      = new SearchCriteria("'numberOfPerson", "<", "2");
-	    Specification<Recipe> specs = builder.with(spec).with(spec1).build();
-	    
+		RecipeSpecificationsBuilder builder = new RecipeSpecificationsBuilder();
+
+		SearchCriteria spec = new SearchCriteria("name", ":", "Samosa");
+		SearchCriteria spec1 = new SearchCriteria("'numberOfPerson", "<", "2");
+		Specification<Recipe> specs = builder.with(spec).with(spec1).build();
+
 		Mockito.when(recipeRepository.findAll(specs)).thenReturn(recipes);
 
-	    List<Recipe> results = recipeRepository.findAll(specs);
-	    List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
-	    
-	    assertThat(recipeResponses).extracting("name").contains("Samosa");
-	    assertThat(recipeResponses).extracting("numberOfPerson").contains(1);
+		List<Recipe> results = recipeRepository.findAll(specs);
+		List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel)
+				.collect(Collectors.toList());
+
+		assertThat(recipeResponses).extracting("name").contains("Samosa");
+		assertThat(recipeResponses).extracting("numberOfPerson").contains(1);
 	}
 
 	@Test
 	void givenNameAndNumberOfPerson_whenGettingListOfUsers_thenCorrect() {
-	    RecipeSpecificationsBuilder builder = new RecipeSpecificationsBuilder();
-	 
-	    SearchCriteria spec 
-	      = new SearchCriteria("name", ":", "Samosa");
-	    SearchCriteria spec1 
-	      = new SearchCriteria("numberOfPerson", ">", "2");
+		RecipeSpecificationsBuilder builder = new RecipeSpecificationsBuilder();
 
-	    Specification<Recipe> specs = builder.with(spec).with(spec1).build();
-	    
+		SearchCriteria spec = new SearchCriteria("name", ":", "Samosa");
+		SearchCriteria spec1 = new SearchCriteria("numberOfPerson", ">", "2");
+
+		Specification<Recipe> specs = builder.with(spec).with(spec1).build();
+
 		Mockito.when(recipeRepository.findAll(specs)).thenReturn(recipes);
 
-	    List<Recipe> results = recipeRepository.findAll(specs);
-	    List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
-	    
-	    assertThat(recipeResponses).extracting("name").contains("Samosa");
+		List<Recipe> results = recipeRepository.findAll(specs);
+		List<RecipeResponse> recipeResponses = results.stream().map(RecipeResponse::fromModel)
+				.collect(Collectors.toList());
+
+		assertThat(recipeResponses).extracting("name").contains("Samosa");
 	}
-	
+
 	@AfterEach
 	void deleteEntity() {
 		recipeRepository.delete(samosa);

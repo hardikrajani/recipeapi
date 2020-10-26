@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class ErrorDetails {
-    private Date timestamp;
-    private String message;
-    private String details;
+	private Date timestamp;
+	private String message;
+	private String details;
 }

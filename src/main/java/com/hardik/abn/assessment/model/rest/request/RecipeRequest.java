@@ -18,7 +18,7 @@ public class RecipeRequest {
 	private int numberOfPerson;
 	private String cookingInstruction;
 	private List<IngredientRequest> ingredients;
-	
+
 	public Recipe toModel() {
 		Recipe recipe = new Recipe();
 		recipe.setCookingInstruction(this.cookingInstruction);
@@ -29,7 +29,7 @@ public class RecipeRequest {
 		recipe.setIngredients(ingredients.stream().map(IngredientRequest::toModel).collect(Collectors.toList()));
 		return recipe;
 	}
-	
+
 	public Recipe toModel(long recipeId) {
 		Recipe recipe = this.toModel();
 		recipe.setId(recipeId);

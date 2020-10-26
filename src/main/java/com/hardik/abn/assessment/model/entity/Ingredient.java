@@ -13,13 +13,13 @@ import lombok.Data;
 public class Ingredient {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	long id;
-	
-	@Column(name="ingredient_name")
+
+	@Column(name = "ingredient_name")
 	String ingredientName;
-	
-	@Column(name="ingredient_desciption")
+
+	@Column(name = "ingredient_desciption")
 	String ingredientDesciption;
 }

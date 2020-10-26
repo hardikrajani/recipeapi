@@ -27,7 +27,8 @@ public class RecipeSpecification implements Specification<Recipe> {
 
 		try {
 			if (criteria.getOperation().equalsIgnoreCase(">")) {
-				return builder.greaterThanOrEqualTo(root.<String>get(criteria.getKey()), criteria.getValue().toString());
+				return builder.greaterThanOrEqualTo(root.<String>get(criteria.getKey()),
+						criteria.getValue().toString());
 			} else if (criteria.getOperation().equalsIgnoreCase("<")) {
 				return builder.lessThanOrEqualTo(root.<String>get(criteria.getKey()), criteria.getValue().toString());
 			} else if (criteria.getOperation().equalsIgnoreCase(":")) {
@@ -36,7 +37,7 @@ public class RecipeSpecification implements Specification<Recipe> {
 				} else {
 					return builder.equal(root.get(criteria.getKey()), criteria.getValue());
 				}
-			}			
+			}
 		} catch (IllegalArgumentException e) {
 			throw new RecipeAttributeNotFoundException(e.getMessage());
 		}

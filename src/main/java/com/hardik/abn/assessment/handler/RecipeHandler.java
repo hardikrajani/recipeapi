@@ -22,44 +22,40 @@ public class RecipeHandler {
 	@Autowired
 	RecipeService recipeService;
 
-	
 	public RecipeResponse createRecipe(Recipe recipe) {
 		return RecipeResponse.fromModel(recipeService.createRecipe(recipe));
 	}
 
-
 	public List<RecipeResponse> getAllRecipe() {
-		return recipeService.getAll().stream().map(RecipeResponse::fromModel).collect(Collectors.toList());		
+		return recipeService.getAll().stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
 	}
-	
+
 	public RecipeResponse findById(long recipeId) {
 		Optional<Recipe> recipe = recipeService.findById(recipeId);
-		if(recipe.isEmpty()) 
+		if (recipe.isEmpty())
 			throw new RecipeNotFoundException("recipe is not found for recipeId=" + recipeId);
-		
+
 		return RecipeResponse.fromModel(recipe.get());
 	}
-
 
 	public void deleteById(long recipeId) {
 		recipeService.deleteRecipe(recipeId);
 	}
 
-
 	public RecipeResponse updateRecipe(Recipe model) {
-        this.findById(model.getId());
-        return RecipeResponse.fromModel(recipeService.updateRecipe(model));
+		this.findById(model.getId());
+		return RecipeResponse.fromModel(recipeService.updateRecipe(model));
 	}
 
 	public List<RecipeResponse> search(String search) {
-        RecipeSpecificationsBuilder builder = new RecipeSpecificationsBuilder();
-        Pattern pattern = Pattern.compile("([A-Za-z0-9'_ ]+?)(:|<|>)([A-Za-z0-9_ ]+?),");
-        Matcher matcher = pattern.matcher(search + ",");
-        while (matcher.find()) {
-            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
-        }
-        
-        Specification<Recipe> spec = builder.build();
+		RecipeSpecificationsBuilder builder = new RecipeSpecificationsBuilder();
+		Pattern pattern = Pattern.compile("([A-Za-z0-9'_ ]+?)(:|<|>)([A-Za-z0-9_ ]+?),");
+		Matcher matcher = pattern.matcher(search + ",");
+		while (matcher.find()) {
+			builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
+		}
+
+		Specification<Recipe> spec = builder.build();
 
 		return recipeService.search(spec).stream().map(RecipeResponse::fromModel).collect(Collectors.toList());
 	}

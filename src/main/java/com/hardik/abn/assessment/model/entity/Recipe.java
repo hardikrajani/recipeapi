@@ -22,30 +22,27 @@ import lombok.Data;
 public class Recipe {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	long id;
-	
-	@Column(name="create_date")
+
+	@Column(name = "create_date")
 	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
 	Date createDate;
-	
-	@Column(name="vegetarian")
+
+	@Column(name = "vegetarian")
 	boolean isVegetarian;
-	
-	@Column(name="number_of_person")
+
+	@Column(name = "number_of_person")
 	int numberOfPerson;
 
-	@Column(name="name")
+	@Column(name = "name")
 	String name;
 
-	@Column(name="cooking_instructions")
+	@Column(name = "cooking_instructions")
 	String cookingInstruction;
-	
-	@OneToMany(
-	        cascade = CascadeType.PERSIST,
-	        orphanRemoval = true
-	 )
+
+	@OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
 	@Column(name = "ingredients")
 	List<Ingredient> ingredients;
 }

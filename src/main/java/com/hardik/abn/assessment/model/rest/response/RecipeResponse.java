@@ -16,13 +16,13 @@ public class RecipeResponse {
 
 	private long id;
 	private String name;
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date createDate;
 	private boolean isVegetarian;
 	private int numberOfPerson;
 	private String cookingInstruction;
 	private List<IngredientResponse> ingredients;
-	
+
 	public static RecipeResponse fromModel(Recipe recipe) {
 		RecipeResponse recipeResponse = new RecipeResponse();
 		recipeResponse.setCookingInstruction(recipe.getCookingInstruction());
@@ -31,7 +31,8 @@ public class RecipeResponse {
 		recipeResponse.setId(recipe.getId());
 		recipeResponse.setNumberOfPerson(recipe.getNumberOfPerson());
 		recipeResponse.setVegetarian(recipe.isVegetarian());
-		recipeResponse.setIngredients(recipe.getIngredients().stream().map(IngredientResponse::fromModel).collect(Collectors.toList()));
+		recipeResponse.setIngredients(
+				recipe.getIngredients().stream().map(IngredientResponse::fromModel).collect(Collectors.toList()));
 		return recipeResponse;
 	}
 }

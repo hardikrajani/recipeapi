@@ -28,34 +28,35 @@ public class RecipeContoller {
 
 	@Autowired
 	RecipeHandler recipeHandler;
-	
-    @GetMapping("/")
-    public ResponseEntity<List<RecipeResponse>> getAll() {
-        return ResponseEntity.ok(recipeHandler.getAllRecipe());
-    }
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<RecipeResponse> findById(@PathVariable long id) {
-        return ResponseEntity.ok(recipeHandler.findById(id));
-    }
-    
-    @DeleteMapping("/{id}")
-    public void deleteRecipeById(@PathVariable long id) {
-        recipeHandler.deleteById(id);
-    }
-    
-    @PostMapping("/")
-    public ResponseEntity<RecipeResponse> createRecipe(@RequestBody RecipeRequest recipeRequest) {
-    	return ResponseEntity.status(HttpStatus.CREATED).body(recipeHandler.createRecipe(recipeRequest.toModel()));
-    }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<RecipeResponse> updateAccount(@RequestBody RecipeRequest recipeRequest, @PathVariable long id) {
-    	return ResponseEntity.status(HttpStatus.CREATED).body(recipeHandler.updateRecipe(recipeRequest.toModel(id)));
-    }
-    
-    @GetMapping("/search")
-    public List<RecipeResponse> search(@RequestParam(value = "search") String search) {
-        return recipeHandler.search(search);
-    }
+	@GetMapping("/")
+	public ResponseEntity<List<RecipeResponse>> getAll() {
+		return ResponseEntity.ok(recipeHandler.getAllRecipe());
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<RecipeResponse> findById(@PathVariable long id) {
+		return ResponseEntity.ok(recipeHandler.findById(id));
+	}
+
+	@DeleteMapping("/{id}")
+	public void deleteRecipeById(@PathVariable long id) {
+		recipeHandler.deleteById(id);
+	}
+
+	@PostMapping("/")
+	public ResponseEntity<RecipeResponse> createRecipe(@RequestBody RecipeRequest recipeRequest) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(recipeHandler.createRecipe(recipeRequest.toModel()));
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<RecipeResponse> updateAccount(@RequestBody RecipeRequest recipeRequest,
+			@PathVariable long id) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(recipeHandler.updateRecipe(recipeRequest.toModel(id)));
+	}
+
+	@GetMapping("/search")
+	public List<RecipeResponse> search(@RequestParam(value = "search") String search) {
+		return recipeHandler.search(search);
+	}
 }

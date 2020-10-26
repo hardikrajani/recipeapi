@@ -48,6 +48,8 @@ class RecipeContollerTest {
 
 	private List<RecipeResponse> recipes;
 	private RecipeResponse recipe;
+	private Recipe recipeEntity;
+	private RecipeRequest recipeRequest;
 
 	@BeforeEach
 	public void setUp() {
@@ -73,6 +75,39 @@ class RecipeContollerTest {
 		recipes = new ArrayList<RecipeResponse>();
 		recipes.add(recipe);
 
+		Recipe recipeEntity = new Recipe();
+		recipeEntity.setId(1);
+		recipeEntity.setCookingInstruction("test");
+		recipeEntity.setCreateDate(new Date());
+		recipeEntity.setNumberOfPerson(2);
+		recipeEntity.setVegetarian(true);
+		List<Ingredient> ingredientEntities = new ArrayList<>();
+		Ingredient ingredientEntity1 = new Ingredient();
+		ingredientEntity1.setId(1);
+		ingredientEntity1.setIngredientDesciption("test");
+		ingredientEntity1.setIngredientName("test");
+		Ingredient ingredientEntity2 = new Ingredient();
+		ingredientEntity2.setId(2);
+		ingredientEntity2.setIngredientDesciption("test");
+		ingredientEntity2.setIngredientName("test");
+		ingredientEntities.add(ingredientEntity1);
+		ingredientEntities.add(ingredientEntity2);
+		recipeEntity.setIngredients(ingredientEntities);
+
+		RecipeRequest recipeRequest = new RecipeRequest();
+		recipeRequest.setCookingInstruction("test");
+		recipeRequest.setNumberOfPerson(2);
+		recipeRequest.setVegetarian(true);
+		List<IngredientRequest> ingredientRequests = new ArrayList<>();
+		IngredientRequest ingredientRequest1 = new IngredientRequest();
+		ingredientRequest1.setIngredientDesciption("test");
+		ingredientRequest1.setIngredientName("test");
+		IngredientRequest ingredientRequest2 = new IngredientRequest();
+		ingredientRequest2.setIngredientDesciption("test");
+		ingredientRequest2.setIngredientName("test");
+		ingredientRequests.add(ingredientRequest1);
+		ingredientRequests.add(ingredientRequest2);
+		recipeRequest.setIngredients(ingredientRequests);
 	}
 
 	@Test
@@ -111,41 +146,6 @@ class RecipeContollerTest {
 	@WithMockUser(username = "user1", password = "user1Pass", roles = "USER")
 	void testCreateRecipe() throws Exception {
 
-		Recipe recipeEntity = new Recipe();
-		recipeEntity.setId(1);
-		recipeEntity.setCookingInstruction("test");
-		recipeEntity.setCreateDate(new Date());
-		recipeEntity.setNumberOfPerson(2);
-		recipeEntity.setVegetarian(true);
-		List<Ingredient> ingredients = new ArrayList<>();
-		Ingredient ingredient1 = new Ingredient();
-		ingredient1.setId(1);
-		ingredient1.setIngredientDesciption("test");
-		ingredient1.setIngredientName("test");
-		Ingredient ingredient2 = new Ingredient();
-		ingredient2.setId(2);
-		ingredient2.setIngredientDesciption("test");
-		ingredient2.setIngredientName("test");
-		ingredients.add(ingredient1);
-		ingredients.add(ingredient2);
-		recipeEntity.setIngredients(ingredients);
-
-		RecipeRequest recipeRequest = new RecipeRequest();
-		recipeRequest.setCookingInstruction("test");
-		recipeRequest.setNumberOfPerson(2);
-		recipeRequest.setVegetarian(true);
-		List<IngredientRequest> ingredientRequests = new ArrayList<>();
-		IngredientRequest ingredientRequest1 = new IngredientRequest();
-		ingredientRequest1.setIngredientDesciption("test");
-		ingredientRequest1.setIngredientName("test");
-		IngredientRequest ingredientRequest2 = new IngredientRequest();
-		ingredientRequest2.setIngredientDesciption("test");
-		ingredientRequest2.setIngredientName("test");
-		ingredientRequests.add(ingredientRequest1);
-		ingredientRequests.add(ingredientRequest2);
-		recipeRequest.setIngredients(ingredientRequests);
-
-		
 		Mockito.when(recipeHandler.createRecipe(recipeEntity)).thenReturn(recipe);
 
 		mockMvc.perform(
@@ -157,60 +157,24 @@ class RecipeContollerTest {
 	@WithMockUser(username = "user1", password = "user1Pass", roles = "USER")
 	void testUpdateAccount() throws Exception {
 
-		long id = 1; 
-		Recipe recipeEntity = new Recipe();
-		recipeEntity.setId(1);
-		recipeEntity.setCookingInstruction("test");
-		recipeEntity.setCreateDate(new Date());
-		recipeEntity.setNumberOfPerson(2);
-		recipeEntity.setVegetarian(true);
-		List<Ingredient> ingredients = new ArrayList<>();
-		Ingredient ingredient1 = new Ingredient();
-		ingredient1.setId(1);
-		ingredient1.setIngredientDesciption("test");
-		ingredient1.setIngredientName("test");
-		Ingredient ingredient2 = new Ingredient();
-		ingredient2.setId(2);
-		ingredient2.setIngredientDesciption("test");
-		ingredient2.setIngredientName("test");
-		ingredients.add(ingredient1);
-		ingredients.add(ingredient2);
-		recipeEntity.setIngredients(ingredients);
+		long id = 1;
 
-		RecipeRequest recipeRequest = new RecipeRequest();
-		recipeRequest.setCookingInstruction("test");
-		recipeRequest.setNumberOfPerson(2);
-		recipeRequest.setVegetarian(true);
-		List<IngredientRequest> ingredientRequests = new ArrayList<>();
-		IngredientRequest ingredientRequest1 = new IngredientRequest();
-		ingredientRequest1.setIngredientDesciption("test");
-		ingredientRequest1.setIngredientName("test");
-		IngredientRequest ingredientRequest2 = new IngredientRequest();
-		ingredientRequest2.setIngredientDesciption("test");
-		ingredientRequest2.setIngredientName("test");
-		ingredientRequests.add(ingredientRequest1);
-		ingredientRequests.add(ingredientRequest2);
-		recipeRequest.setIngredients(ingredientRequests);
-
-		
 		Mockito.when(recipeHandler.createRecipe(recipeEntity)).thenReturn(recipe);
 
-		mockMvc.perform(
-				put("/api/v1/recipe/{id}", id).content(asJsonString(recipeRequest)).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().is(201));
+		mockMvc.perform(put("/api/v1/recipe/{id}", id).content(asJsonString(recipeRequest))
+				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().is(201));
 	}
 
 	@Test
 	@WithMockUser(username = "user1", password = "user1Pass", roles = "USER")
 	void testSearch() throws Exception {
 
-		RecipeSpecification spec = 
-			      new RecipeSpecification(new SearchCriteria("isVegetarian", ":", true));
+		RecipeSpecification spec = new RecipeSpecification(new SearchCriteria("isVegetarian", ":", true));
 
 		Mockito.when(recipeHandler.search(spec.toString())).thenReturn(recipes);
 
-		mockMvc.perform(get("/api/v1/recipe/search").param("search", "isVegetarian:true").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk()).andExpect(status().is(200));
+		mockMvc.perform(get("/api/v1/recipe/search").param("search", "isVegetarian:true")
+				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(status().is(200));
 	}
 
 	public String asJsonString(final Object obj) {
